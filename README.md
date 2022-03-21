@@ -48,8 +48,8 @@ Below are two example `crontab` entries to call the scripts every five minutes v
 */5 *  *   *   *  curl -Ssk http://127.0.0.1/peercount.php > /dev/null
 
 #Run over php cgi
-*/5 *  *   *   *  cd /var/www/bitnodes/ && /usr/bin/php stats.php > /dev/null
-*/5 *  *   *   *  cd /var/www/bitnodes/ && /usr/bin/php peercount.php > /dev/null
+*/5 *  *   *   *  cd /var/www/dogenode/ && /usr/bin/php stats.php > /dev/null
+*/5 *  *   *   *  cd /var/www/dogenode/ && /usr/bin/php peercount.php > /dev/null
 ```
 
 ## Ignoring Certain Peers
@@ -63,19 +63,13 @@ To ignore any specific peer from appearing in the connections table. Write the I
   ),
 ```
 
-## Peer Count Nodes
-
-The node count script automatically counts Core, Classic, Unlimited and BitcoinJ clients. To add more node types to the chart, simply add an entry into the `peercount_extra_nodes` array in `config.php`.
-
-The key of the entry is an internal-only identifier, and the value is the lower-case text that should be matched in order to increment the counter.
-
 ## Contributing
 
 Contributions and testing reports are extremely welcome. Please submit a pull request or issue on [GitHub](https://github.com/floppy69/dogecoind-status), and make sure that your code conforms to the PEAR PHP coding standards (Travis CI will test your pull request when it's sent).
 
 The author accepts tips via Bitcoin to 1N73BsKN2bubvRo9dXbUjwe4SBHW4j4j4B - if you would like to buy me a beer, please do!
 
-The fork, author accepts also tips via Dogecoin (obviously) to DNxB12TG8ijZxcG4oGaDAgVNuzSxdkMRDD - if you would like to buy me a covfefe, please do!
+The fork author (me) accepts also tips via Dogecoin (obviously) to DNxB12TG8ijZxcG4oGaDAgVNuzSxdkMRDD - if you would like to buy me a covfefe, please do!
 
 
 ## Advanced Options
@@ -98,7 +92,7 @@ The `config.php` file also contains lots of options to control how the applicati
 | Value                   | Type    | Default   | Explanation                                 |
 |-------------------------|---------|-----------|---------------------------------------------|
 | `display_donation_text` | Boolean | `false`    | Display text to encourage donations        |
-| `donation_address`      | String  | `not_set` | Bitcoin address to advertise for donations  |
+| `donation_address`      | String  | `not_set` | Dogecoin address to advertise for donations  |
 | `donation_amount`       | String  | `0.001`   | Donation amount - not currently implemented |
 
 ### Peers
@@ -140,9 +134,9 @@ The `config.php` file also contains lots of options to control how the applicati
 | `display_version`          | Boolean | `true`                | Display node `dogecoind` version                                                                    |
 | `display_github_ribbon`    | Boolean | `true`                | Displays the 'Fork me on GitHub' ribbon                                                            |
 | `display_max_height`       | Boolean | `false`               | Displays the node height as a percentage of network height                                         |
-| `use_bitcoind_ip`          | Boolean | `true`                | Use the Dogecoind daemon to get the public IP, instead of `$_SERVER`                                 |
+| `use_dogecoind_ip`          | Boolean | `true`                | Use the Dogecoind daemon to get the public IP, instead of `$_SERVER`                                 |
 | `intro_text`               | String  | `not_set`             | Introductory text to display above the node statistics.                                            |
-| `title_text`               | String  | `Bitcoin Node Status` | Value to display for the web browser title and main heading                                        |
+| `title_text`               | String  | `Dogecoin Node Status` | Value to display for the web browser title and main heading                                        |
 | `display_sochain_info`    | Boolean | `false`               | Displays various information via the sochain.io API                                            |
 | `display_chart`            | Boolean | `false`               | Displays a chart showing the stats collected by the stats.php script                               |
 | `display_peer_chart`       | Boolean | `false`               | Displays a chart showing the mix of node versions connected to your node                           |
@@ -191,5 +185,6 @@ The `config.php` file also contains lots of options to control how the applicati
 ## Licensing
 
 * Copyright (C) 2015 [Craig Watson](http://www.cwatson.org)
+* Forked By [Floppy69](https://github.com/floppy69)
 * Distributed under the terms of the [Apache License v2.0](http://www.apache.org/licenses/LICENSE-2.0) - see [LICENSE file](https://github.com/craigwatson/bitcoind-status/blob/master/LICENSE) for details.
 * [EasyBitcoin-PHP library](https://github.com/aceat64/EasyBitcoin-PHP) is reproduced under the terms of the [MIT licence](http://opensource.org/licenses/MIT) and is used from commit [ff67be76](https://github.com/aceat64/EasyBitcoin-PHP/tree/ff67be76a9109beba2ec5f684d646c6f3a3e9792).
