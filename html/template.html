@@ -92,10 +92,10 @@
   <div class="pure-u-1 pure-u-md-1-2 pure-u-lg-1-3 image">
     <?php
       if (($config['display_donation_text'] === TRUE) && ($config['donation_address'] !== 'not_set')) {
-        echo '<p class="donation">' . "Please support this Bitcoin node by donating to <a href='https://www.blockchain.com/btc/address/" . $config['donation_address'] . "' target='_blank'>" . $config['donation_address'] . "</a></p>";
+        echo '<p class="donation">' . "Please support this Dogecoin node (many edits !) by dogenating to <a href='https://chain.so/address/DOGE/" . $config['donation_address'] . "' target='_blank'>" . $config['donation_address'] . "</a></p>";
       }
     ?>
-    <?php if (strcmp($config['donation_address'],'not_set') == 0){ echo '<img src="img/logo.png" alt="Bitcoin Logo" class="logo" />'; } else { echo generateDonationImage(); } ?>
+    <?php if (strcmp($config['donation_address'],'not_set') == 0){ echo '<img src="img/dogecoin.png" alt="Dogecoin Logo" class="logo" style="width:337px;height:337px" />'; } else { echo generateDonationImage(); } ?>
     <?php if ((is_array($config['node_links'])) & (count($config['node_links']) > 0)) { echo '<div style="padding:10px;text-align:center"><p class="stat"><span class="label">Node Links</span></p>'; foreach ($config['node_links'] as $node_link) { ?>
         <a target="_blank" title="<?php echo $node_link['name']; ?>" href="<?php echo $node_link['link']; ?>"><?php if(isset($node_link['image'])) { ?><img src="<?php echo $node_link['image']; ?>" style="float: left;margin-left: 20px" alt="<?php echo $node_link['name']; ?>"/><?php } else { echo $node_link['name']; } ?></a>
     <?php } echo '</div>'; } ?>
@@ -104,7 +104,7 @@
   <div class="pure-u-1 pure-u-md-1-2 pure-u-lg-2-3">
 <?php if (isset($data['error'])) { ?>
     <div class="red">
-      <h2>There has been an error communicating with the Bitcoin Daemon</h2>
+      <h2>There has been an error communicating with the Dogecoin Daemon</h2>
       <pre><?php echo $data['error']; ?></pre>
       <p>Please report this to <a href="mailto:<?php echo $config['admin_email']; ?>"><?php echo $config['admin_email']; ?></a></p>
     </div>
@@ -116,8 +116,8 @@
 <?php if ($data['display_peer_chart'] === true) { ?>
       <div id="peer_chart" style="width: 100%; height: 20%"></div>
 <?php } ?>
-<?php if (isset($data['bitnodes_info']) === true) { ?>
-      <p class="stat"><span class="label">Latest Bitnodes Latency:</span> <?php if ($data['bitnodes_info']['latest_latency'] !== 0) { echo $data['bitnodes_info']['latest_latency'] . "ms"; } else { echo "Unavailable"; } ?></p>
+<?php if (isset($data['sochain_info']) === true) { ?>
+      <p class="stat"><span class="label">Doge Price : 1 Doge = </span> <?php echo $data['sochain_info']['sochain_USD'] . " USD (binance)"; ?> <span class="label"> <br> Doge Price : 1 Doge = </span> <?php echo $data['sochain_info']['sochain_BTC'] . " BTC (binance)"; ?></p>
 <?php } ?>
       <p class="stat">
           <span class="label">Node Height:</span> <?php echo $data['blocks']; ?>
@@ -136,8 +136,8 @@
 <?php if (isset($config['display_version']) && $config['display_version']) { ?>
       <p class="stat"><span class="label">Node Version:</span> <?php echo preg_replace(array('/\//','/:/'),array('',' '),$data['subversion']); ?></p>
 <?php } ?>
-<?php if (isset($data['bitcoind_uptime'])) { ?>
-      <p class="stat"><span class="label">Bitcoin Daemon Uptime:</span> <?php echo $data['bitcoind_uptime']; ?></p>
+<?php if (isset($data['dogecoind_uptime'])) { ?>
+      <p class="stat"><span class="label">Dogecoin Daemon Uptime:</span> <?php echo $data['dogecoind_uptime']; ?></p>
 <?php } ?>
 <?php if ((isset($data['ip_location'])) && (strcmp($data['ip_location']['country_code'], 'blank') != 0)) { ?>
       <p class="stat"><span class="label">Node Location:</span> <img src="img/blank.gif" class="flag flag-<?php echo strtolower($data['ip_location']['country_code']); ?>" alt="<?php echo $data['ip_location']['country_name']; ?>" /> <?php echo $data['ip_location']['country_name']; ?></p>
@@ -191,8 +191,8 @@
   <div id="footer" class="pure-u-1-1 pure-u-md-1-1 pure-u-lg-1-1">
     <hr />
     <p>
+       <a href="https://github.com/craigwatson/bitcoind-status">Dogecoin Daemon Status Page</a> by <a href="https://cwatson.org">Floppy69</a><br /> Forked from the
        <a href="https://github.com/craigwatson/bitcoind-status">Bitcoin Daemon Status Page</a> by <a href="https://cwatson.org">Craig Watson</a>, distributed under the <a href="https://www.apache.org/licenses/LICENSE-2.0">Apache License v2.0</a><br />
-       Please send donations to: <a href="https://www.blockchain.com/btc/address/15sLQBY3TnCRX5rYLqt8gxPqmnxU4JrKBn" target="_blank">15sLQBY3TnCRX5rYLqt8gxPqmnxU4JrKBn</a><br />
        IP Geolocation by <a href="http://www.geoplugin.com" target="_new">geoPlugin</a>, using GeoLite2 data from <a href="https://www.maxmind.com" target="_new">MaxMind</a><br />
        Page generated in <?php echo round((microtime(TRUE)-$_SERVER['REQUEST_TIME_FLOAT']), 4); ?> seconds, using <?php echo $curl_requests; ?> remote request(s)<br />
     </p>
