@@ -65,7 +65,7 @@ echo $bitcoin->status;
 
 */
 
-class Bitcoin
+class Dogecoin
 {
     // Configuration options
     private $username;
@@ -185,10 +185,10 @@ class Bitcoin
         }
 
         if ($this->response['error']) {
-            // If bitcoind returned an error, put that in $this->error
+            // If dogecoind returned an error, put that in $this->error
             $this->error = $this->response['error']['message'];
         } elseif ($this->status != 200) {
-            // If bitcoind didn't return a nice error message, we need to make our own
+            // If dogecoind didn't return a nice error message, we need to make our own
             switch ($this->status) {
                 case 400:
                     $this->error = 'HTTP_BAD_REQUEST';
