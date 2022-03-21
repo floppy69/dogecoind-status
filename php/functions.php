@@ -1,19 +1,20 @@
 <?php
 /**
- * Bitcoin Status Page
+ * Dogecoin Status Page
  *
  * @category File
- * @package  BitcoinStatus
+ * @package  DogecoinStatus
  * @author   Craig Watson <craig@cwatson.org>
+ * @Forked By   Floppy69 <a.maaded@gmail.com>
  * @license  https://www.apache.org/licenses/LICENSE-2.0 Apache License, Version 2.0
- * @link     https://github.com/craigwatson/bitcoind-status
+ * @link     https://github.com/floppy69/dogecoind-status
  */
 
 $curl_requests = 0;
-$default_app_title = 'Bitcoin Node Status';
+$default_app_title = 'Dogecoin Node Status';
 
 /**
- * Connects to Bitcoin daemon and retrieves information, then writes to cache
+ * Connects to Dogecoin daemon and retrieves information, then writes to cache
  *
  * @param string $from_cache Whether to get the data from cache or not
  *
@@ -44,23 +45,23 @@ function getData($from_cache = false)
 
     // Include EasyBitcoin library and set up connection
     include_once './php/easybitcoin.php';
-    $bitcoin = new Bitcoin($config['rpc_user'], $config['rpc_pass'], $config['rpc_host'], $config['rpc_port']);
+    $dogecoin = new Dogecoin($config['rpc_user'], $config['rpc_pass'], $config['rpc_host'], $config['rpc_port']);
 
     // Setup SSL if configured
     if ($config['rpc_ssl'] === true) {
-        $bitcoin->setSSL($config['rpc_ssl_ca']);
+        $dogecoin->setSSL($config['rpc_ssl_ca']);
     }
 
     // Get blockchain and network info
-    $data = $bitcoin->getblockchaininfo();
-    $net_info = $bitcoin->getnetworkinfo();
+    $data = $dogecoin->getblockchaininfo();
+    $net_info = $dogecoin->getnetworkinfo();
     $data['connections'] = $net_info['connections'];
     $data['subversion'] = $net_info['subversion'];
 
     // Handle errors if they happened
     if (!$data) {
-        $return_data['error'] = $bitcoin->error;
-        $return_data['status'] = $bitcoin->status;
+        $return_data['error'] = $dogecoin->error;
+        $return_data['status'] = $dogecoin->status;
         $return_data['display_connection_chart'] = false;
         $return_data['display_peer_chart'] = false;
         writeToCache($return_data);
@@ -79,8 +80,8 @@ function getData($from_cache = false)
     }
 
     if ($config['display_ip'] === true) {
-        // Use bitcoind IP
-        if ($config['use_bitcoind_ip'] === true) {
+        // Use dogecoind IP
+        if ($config['use_dogecoind_ip'] === true) {
             $data['node_ip'] = $net_info['localaddresses'][0]['address'];
         } else {
             $data['node_ip'] = $_SERVER['SERVER_ADDR'];
@@ -96,7 +97,7 @@ function getData($from_cache = false)
 
     // Add peer info
     if ($config['display_peer_info'] === true) {
-        $data['peers'] = parsePeers($bitcoin->getpeerinfo(), $geo_curl);
+        $data['peers'] = parsePeers($dogecoin->getpeerinfo(), $geo_curl);
     }
 
     // Node geolocation
@@ -104,37 +105,38 @@ function getData($from_cache = false)
         $data['ip_location'] = getGeolocation($data['node_ip'], $geo_curl);
     }
 
-    // Bitcoin Daemon uptime
-    if (($config['display_bitcoind_uptime'] === true) && (strcmp(PHP_OS, "Linux") == 0)) {
-        $data['bitcoind_uptime'] = getProcessUptime($config['bitcoind_process_name']);
+    // Dogecoin Daemon uptime
+    if (($config['display_dogecoind_uptime'] === true) && (strcmp(PHP_OS, "Linux") == 0)) {
+        $data['dogecoind_uptime'] = getProcessUptime($config['dogecoind_process_name']);
     }
 
     // Create handle
-    if ($config['display_max_height'] || $config['display_bitnodes_info']) {
-        $bitnodes_curl = curl_init();
+    if ($config['display_max_height'] || $config['display_sochain_info']) {
+        $dogecoin_curly = curl_init();
     }
 
-    // Get max height from bitnodes.earn.com
+    // Get max height from chain.so
     if ($config['display_max_height'] === true) {
         if ($config['display_testnet'] === true) {
-            $exec_result = json_decode(curlRequest("https://sochain.com/api/v2/get_info/BTCTEST", $bitnodes_curl), true);
+            $exec_result = json_decode(curlRequest("https://sochain.com/api/v2/get_info/DOGETEST", $dogecoin_curly), true);
         } else {
-            $exec_result = json_decode(curlRequest("https://sochain.com/api/v2/get_info/BTC", $bitnodes_curl), true);
+            $exec_result = json_decode(curlRequest("https://sochain.com/api/v2/get_info/DOGE", $dogecoin_curly), true);
         }
         $data['max_height'] = $exec_result['data']['blocks'];
         $data['node_height_percent'] = round(($data['blocks']/$data['max_height'])*100, 1);
     }
 
-        // Get node info from bitnodes.io
-    if ($config['display_bitnodes_info'] === true) {
-        $data['bitnodes_info'] = json_decode(curlRequest("https://bitnodes.io/api/v1/nodes/" . $data['node_ip'] . "-".$config['node_port']."/", $bitnodes_curl), true);
-        $latency = json_decode(curlRequest("https://bitnodes.io/api/v1/nodes/" . $data['node_ip'] . "-".$config['node_port']."/latency/", $bitnodes_curl), true);
-        $data['bitnodes_info']['latest_latency'] = $latency['daily_latency'][0]['v'];
+        // Get node info from chain.so
+    if ($config['display_sochain_info'] === true) {
+        $pricebtc = json_decode(curlRequest("https://chain.so/api/v2/get_price/DOGE/BTC", $dogecoin_curly), true);
+        $priceusd = json_decode(curlRequest("https://chain.so/api/v2/get_price/DOGE/USD", $dogecoin_curly), true);
+        $data['sochain_info']['sochain_USD'] = $priceusd['data']['prices'][0]["price"];
+        $data['sochain_info']['sochain_BTC'] = $pricebtc['data']['prices'][0]["price"];
     }
 
     // Close handles
-    if ($config['display_max_height'] || $config['display_bitnodes_info']) {
-        curl_close($bitnodes_curl);
+    if ($config['display_max_height'] || $config['display_sochain_info']) {
+        curl_close($dogecoin_curly);
     }
 
     if (($config['display_ip_location'] === true) || ($config['geolocate_peer_ip'] === true)) {
@@ -343,7 +345,7 @@ function curlRequest($url, $curl_handle, $fail_on_error = false)
 
     curl_setopt($curl_handle, CURLOPT_SSL_VERIFYPEER, false);
     curl_setopt($curl_handle, CURLOPT_RETURNTRANSFER, true);
-    curl_setopt($curl_handle, CURLOPT_USERAGENT, 'Bitcoin Node Status Page');
+    curl_setopt($curl_handle, CURLOPT_USERAGENT, 'Dogecoin Node Status Page');
     curl_setopt($curl_handle, CURLOPT_URL, $url);
 
     $curl_requests++;
@@ -358,7 +360,7 @@ function curlRequest($url, $curl_handle, $fail_on_error = false)
 function generateDonationImage()
 {
     global $config;
-    $alt_text = 'Donate ' . $config['donation_amount'] . ' BTC to ' . $config['donation_address'];
+    $alt_text = 'Donate ' . $config['donation_amount'] . ' DOGE to ' . $config['donation_address'];
     return "\n" . '<img src="https://chart.googleapis.com/chart?chld=H|2&chs=225x225&cht=qr&chl=' . $config['donation_address'] . '" alt="' . $alt_text . '" />' . "\n";
 }
 
@@ -465,7 +467,7 @@ function getProcessUptime($process)
 {
     $process_pid = exec("pidof $process");
     $system_uptime = exec('cut -d "." -f1 /proc/uptime');
-    $pid_uptime = round((intval(exec("cut -d \" \" -f22 /proc/$process_pid//stat"))/100), 0);
+    $pid_uptime = round((intval(exec("cut -d \" \" -f16 /proc/$process_pid//stat"))/100), 0);
     $seconds = $system_uptime-$pid_uptime;
     $days = floor($seconds / 86400);
     $hours = str_pad(floor(($seconds - ($days*86400)) / 3600), 2, "0", STR_PAD_LEFT);
