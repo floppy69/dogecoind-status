@@ -1,4 +1,4 @@
-# bitcoind-status
+# dogecoind-status
 
 [![Travis CI Status](https://travis-ci.org/craigwatson/bitcoind-status.svg?branch=master)](https://travis-ci.org/craigwatson/bitcoind-status)
 
