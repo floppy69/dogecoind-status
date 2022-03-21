@@ -2,7 +2,7 @@
 
 [![Travis CI Status](https://travis-ci.org/craigwatson/bitcoind-status.svg?branch=master)](https://travis-ci.org/craigwatson/bitcoind-status)
 
-This is a small PHP application designed to display status and information from the Bitcoin node daemon.
+This is a small PHP application designed to display status and information from the Dogecoin node daemon.
 
 #### Table of Contents
 
@@ -16,9 +16,9 @@ This is a small PHP application designed to display status and information from 
 
 To run the application, you will need:
 
-  * A Bitcoin node with RPC enabled.
+  * A Dogecoin node with RPC enabled.
   * A web-server with PHP installed.
-  * The PHP `curl` module - this is used to make RPC calls to the Bitcoin daemon.
+  * The PHP `curl` module - this is used to make RPC calls to the Dogecoin daemon. 
 
 ### PHP Support
 
@@ -52,24 +52,6 @@ Below are two example `crontab` entries to call the scripts every five minutes v
 */5 *  *   *   *  cd /var/www/bitnodes/ && /usr/bin/php peercount.php > /dev/null
 ```
 
-## Node Profile Icons
-
-To configure profile icons for your node, just set them up using the `node_links` variable in `config.php`. The format is a multi-dimensional array, as
-below. Icon images for Bitnodes.21.co and Blockchain.info are included in the `img` directory.
-
-```
-    'node_links' => array (
-        array (
-            'name' => 'bitnodes.earn.com',
-            'image'=> 'img/bitnodes.earn.com.png',
-            'link' => 'https://bitnodes.earn.com/nodes/[IP]-[PORT]/'
-        ),
-        array (
-            ...
-        )
-    ),
-```
-
 ## Ignoring Certain Peers
 
 To ignore any specific peer from appearing in the connections table. Write the IPv4 or IPv6 address of the peer in the array like the example below.
@@ -89,10 +71,12 @@ The key of the entry is an internal-only identifier, and the value is the lower-
 
 ## Contributing
 
-Contributions and testing reports are extremely welcome. Please submit a pull request or issue on [GitHub](https://github.com/craigwatson/bitcoind-status), and make sure
-that your code conforms to the PEAR PHP coding standards (Travis CI will test your pull request when it's sent).
+Contributions and testing reports are extremely welcome. Please submit a pull request or issue on [GitHub](https://github.com/floppy69/dogecoind-status), and make sure that your code conforms to the PEAR PHP coding standards (Travis CI will test your pull request when it's sent).
 
-I accept tips via Bitcoin to 1N73BsKN2bubvRo9dXbUjwe4SBHW4j4j4B - if you would like to buy me a beer, please do!
+The author accepts tips via Bitcoin to 1N73BsKN2bubvRo9dXbUjwe4SBHW4j4j4B - if you would like to buy me a beer, please do!
+
+The fork, author accepts also tips via Dogecoin (obviously) to DNxB12TG8ijZxcG4oGaDAgVNuzSxdkMRDD - if you would like to buy me a covfefe, please do!
+
 
 ## Advanced Options
 
@@ -132,10 +116,10 @@ The `config.php` file also contains lots of options to control how the applicati
 | Value               | Type    | Default                               | Explanation                                                          |
 |---------------------|---------|---------------------------------------|----------------------------------------------------------------------|
 | `cache_geo_data`    | Boolean | `true`                                | Enables caching of geolocation data                                  |
-| `geo_cache_file`    | String  | `/var/tmp/bitcoind-geolocation.cache` | File location for the geolocation cache                              |
+| `geo_cache_file`    | String  | `/var/tmp/dogecoind-geolocation.cache` | File location for the geolocation cache                              |
 | `geo_cache_time`    | Int     | `604800`                              | Time in seconds until geolocation cache expires - defaults to 7 days |
 | `use_cache`         | Boolean | `true`                                | Enable cache                                                         |
-| `cache_file`        | String  | `/tmp/bitcoind-status.cache`          | File location to write to for cache                                  |
+| `cache_file`        | String  | `/tmp/dogecoind-status.cache`          | File location to write to for cache                                  |
 | `max_cache_time`    | Int     | `300`                                 | Expiry time for cache                                                |
 | `nocache_whitelist` | Array   | `array('127.0.0.1')`                  | The IP addresses that are allowed to bypass or clear cache           |
 
@@ -153,13 +137,13 @@ The `config.php` file also contains lots of options to control how the applicati
 | `display_ip`               | Boolean | `false`               | Display the server IP address                                                                      |
 | `display_free_disk_space`  | Boolean | `false`               | Displayfree disk space                                                                             |
 | `display_testnet`          | Boolean | `false`               | Display testnet status                                                                             |
-| `display_version`          | Boolean | `true`                | Display node `bitcoind` version                                                                    |
+| `display_version`          | Boolean | `true`                | Display node `dogecoind` version                                                                    |
 | `display_github_ribbon`    | Boolean | `true`                | Displays the 'Fork me on GitHub' ribbon                                                            |
 | `display_max_height`       | Boolean | `false`               | Displays the node height as a percentage of network height                                         |
-| `use_bitcoind_ip`          | Boolean | `true`                | Use the Bitcoin daemon to get the public IP, instead of `$_SERVER`                                 |
+| `use_bitcoind_ip`          | Boolean | `true`                | Use the Dogecoind daemon to get the public IP, instead of `$_SERVER`                                 |
 | `intro_text`               | String  | `not_set`             | Introductory text to display above the node statistics.                                            |
 | `title_text`               | String  | `Bitcoin Node Status` | Value to display for the web browser title and main heading                                        |
-| `display_bitnodes_info`    | Boolean | `false`               | Displays various information via the bitnodes.21.co API                                            |
+| `display_sochain_info`    | Boolean | `false`               | Displays various information via the sochain.io API                                            |
 | `display_chart`            | Boolean | `false`               | Displays a chart showing the stats collected by the stats.php script                               |
 | `display_peer_chart`       | Boolean | `false`               | Displays a chart showing the mix of node versions connected to your node                           |
 | `node_links`               | Array   | `array()`             | Displays links to various other profiles for your node, see "Node Profile Icons"example            |
@@ -169,7 +153,7 @@ The `config.php` file also contains lots of options to control how the applicati
 | Value                   | Type   | Default                     | Explanation                                            |
 |-------------------------|--------|-----------------------------|--------------------------------------------------------|
 | `stats_whitelist`       | Array  | `array('127.0.0.1')`        | Hosts that can run the stats script                    |
-| `stats_file`            | String | `/tmp/bitcoind-status.data` | File to store stats                                    |
+| `stats_file`            | String | `/tmp/dogecoind-status.data` | File to store stats                                    |
 | `stats_max_age`         | String | `604800`                    | Maximum age for stats                                  |
 | `stats_min_data_points` | Int    | `5`                         | Minimum data points to collect before displaying chart |
 
@@ -178,7 +162,7 @@ The `config.php` file also contains lots of options to control how the applicati
 | Value                       | Type    | Default                     | Explanation                                                  |
 |-----------------------------|---------|-----------------------------|--------------------------------------------------------------|
 | `peercount_whitelist`       | Array   | `array('127.0.0.1')`        | Hosts that can run the host-count script                     |
-| `peercount_file`            | String  | `/tmp/bitcoind-peers.data`  | File to store host-count                                     |
+| `peercount_file`            | String  | `/tmp/dogecoind-peers.data`  | File to store host-count                                     |
 | `peercount_max_age`         | String  | `604800`                    | Maximum age for host-count                                   |
 | `peercount_min_data_points` | Int     | `5`                         | Minimum data points to collect before displaying chart       |
 | `peercount_extra_nodes`     | Array   | `array()`                   | Key-Value array of extra node types to count (value = regex) |
@@ -187,8 +171,8 @@ The `config.php` file also contains lots of options to control how the applicati
 
 | Value                     | Type    | Default    | Explanation                                                 |
 |---------------------------|---------|------------|-------------------------------------------------------------|
-| `display_bitcoind_uptime` | Boolean | `true`     | Displays the uptime of the Bitcoin daemon                   |
-| `bitcoind_process_name`   | String  | `bitcoind` | Name to use when getting the bitcoin daemon process' uptime |
+| `display_dogecoind_uptime` | Boolean | `true`     | Displays the uptime of the Dogecoin daemon                   |
+| `dogecoind_process_name`   | String  | `dogecoind` | Name to use when getting the Dogecoin daemon process' uptime |
 
 ### System
 
