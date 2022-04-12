@@ -18,6 +18,9 @@
   <script src="js/jquery-1.11.2.min.js"></script>
   <script src="js/sorttable.js"></script>
   <script src="js/btc-status.js"></script>
+  <script src="js/particles.min.js"></script>
+  <script src="js/scripts.js"></script>
+  
 <?php if (is_file('./php/google_analytics.inc')) { include './php/google_analytics.inc'; } ?>
 <?php if (($data['display_connection_chart'] === true) || ($data['display_peer_chart'] === true)) { ?>
   <script src="https://www.gstatic.com/charts/loader.js?autoload={'modules':[{'name':'visualization','version':'1','packages':['corechart']}]}"></script>
@@ -68,13 +71,19 @@
   </script>
 <?php } ?>
 </head>
+
 <body>
+<?php if ($config['particles'] === TRUE) { ?>
+      <div id="particles" style="position:absolute;top:0;bottom:0;left:0;right:0;"></div>
+<?php } ?>
+
 <?php if ($config['debug'] === TRUE) { ?>
 <!-- DEBUG INFO
 <?php print_r($data); ?>
 -->
 <?php } ?>
 <div id="container" class="pure-g">
+
 
   <div class="pure-u-1 pure-u-md-1-1">
     <h1><?php echo isset($config['title_text']) ? $config['title_text'] : $default_app_title; ?></h1>
@@ -150,11 +159,18 @@
 <?php } ?>
 <?php if (isset($data['peers']) & $config['display_peer_info'] === TRUE) { ?>
   </div>
+  
   <div class="pure-u-1 pure-u-md-1-1 pure-u-lg-1-1" style="margin: 0px auto">
       <h3>Connected Peers <span class="small">[<a id="peerslink" onclick="showHidePeers()" href="javascript:void(0);">Hide</a>]</span></h3>
       <div id="peerstable">
+      
       <p><span class="small">Click on a column header to sort the table:</span></p>
       <table class="pure-table-striped pure-table-bordered sortable" style="margin: 0px auto">
+      
+      <?php if ($config['particles'] === TRUE) { ?>
+      <div id="particles" style="position:absolute;top:0;bottom:0;left:0;right:0;"></div>
+      <?php } ?>
+      
          <thead>
            <tr>
              <th>IP</th>
@@ -191,14 +207,14 @@
   <div id="footer" class="pure-u-1-1 pure-u-md-1-1 pure-u-lg-1-1">
     <hr />
     <p>
-       <a href="https://github.com/craigwatson/bitcoind-status">Dogecoin Daemon Status Page</a> by <a href="https://cwatson.org">Floppy69</a><br /> Forked from the
+       <a href="https://github.com/floppy69/dogecoind-status">Dogecoin Daemon Status Page</a> by <a href="https://github.com/floppy69">Floppy69</a><br /> Forked from the
        <a href="https://github.com/craigwatson/bitcoind-status">Bitcoin Daemon Status Page</a> by <a href="https://cwatson.org">Craig Watson</a>, distributed under the <a href="https://www.apache.org/licenses/LICENSE-2.0">Apache License v2.0</a><br />
        IP Geolocation by <a href="http://www.geoplugin.com" target="_new">geoPlugin</a>, using GeoLite2 data from <a href="https://www.maxmind.com" target="_new">MaxMind</a><br />
        Page generated in <?php echo round((microtime(TRUE)-$_SERVER['REQUEST_TIME_FLOAT']), 4); ?> seconds, using <?php echo $curl_requests; ?> remote request(s)<br />
     </p>
     <?php if ($config['display_github_ribbon'] === TRUE) { ?>
       <p>
-        <span id="forkongithub"><a href="https://github.com/craigwatson/bitcoind-status">Fork me on GitHub</a></span>
+        <span id="forkongithub"><a href="https://github.com/floppy69/dogecoind-status">Fork this work on Github</a></span>
       </p>
     <?php } ?>
   </div>
