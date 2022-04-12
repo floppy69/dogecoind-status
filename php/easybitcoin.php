@@ -37,9 +37,9 @@ $bitcoin = new Bitcoin('username','password');
 // Optionally, you can specify a host and port.
 $bitcoin = new Bitcoin('username','password','host','port');
 // Defaults are:
-//	host = localhost
-//	port = 8332
-//	proto = http
+//    host = localhost
+//    port = 8332
+//    proto = http
 
 // If you wish to make an SSL connection you can set an optional CA certificate or leave blank
 // This will set the protocol to HTTPS and some CURL flags
@@ -88,7 +88,7 @@ class Dogecoin
      * @param string $username
      * @param string $password
      * @param string $host
-     * @param int $port
+     * @param int    $port
      * @param string $proto
      * @param string $url
      */
@@ -128,11 +128,13 @@ class Dogecoin
         $this->id++;
 
         // Build the request, it's ok that params might have any empty array
-        $request = json_encode(array(
+        $request = json_encode(
+            array(
             'method' => $method,
             'params' => $params,
             'id'     => $this->id
-        ));
+            )
+        );
 
         // Build the cURL session
         $curl    = curl_init("{$this->proto}://{$this->host}:{$this->port}/{$this->url}");
@@ -190,18 +192,18 @@ class Dogecoin
         } elseif ($this->status != 200) {
             // If dogecoind didn't return a nice error message, we need to make our own
             switch ($this->status) {
-                case 400:
-                    $this->error = 'HTTP_BAD_REQUEST';
-                    break;
-                case 401:
-                    $this->error = 'HTTP_UNAUTHORIZED';
-                    break;
-                case 403:
-                    $this->error = 'HTTP_FORBIDDEN';
-                    break;
-                case 404:
-                    $this->error = 'HTTP_NOT_FOUND';
-                    break;
+            case 400:
+                $this->error = 'HTTP_BAD_REQUEST';
+                break;
+            case 401:
+                $this->error = 'HTTP_UNAUTHORIZED';
+                break;
+            case 403:
+                $this->error = 'HTTP_FORBIDDEN';
+                break;
+            case 404:
+                $this->error = 'HTTP_NOT_FOUND';
+                break;
             }
         }
 

@@ -1,12 +1,13 @@
 <?php
 /**
- * Bitcoin Status Page
+ * Dogecoin Status Page
  *
  * @category File
- * @package  BitcoinStatus
+ * @package  DogecoinStatus
  * @author   Craig Watson <craig@cwatson.org>
+ * @Forked   By   Floppy69 <a.maaded@gmail.com>
  * @license  https://www.apache.org/licenses/LICENSE-2.0 Apache License, Version 2.0
- * @link     https://github.com/craigwatson/bitcoind-status
+ * @link     https://github.com/floppy69/dogecoind-status
  */
 
 if (!is_file('./php/config.php')) {

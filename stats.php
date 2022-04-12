@@ -3,10 +3,11 @@
  * Bitcoin Status Page - Stats
  *
  * @category File
- * @package  BitcoinStatus
+ * @package  DogecoinStatus
  * @author   Craig Watson <craig@cwatson.org>
+ * @Forked   By   Floppy69 <a.maaded@gmail.com>
  * @license  https://www.apache.org/licenses/LICENSE-2.0 Apache License, Version 2.0
- * @link     https://github.com/craigwatson/bitcoind-status
+ * @link     https://github.com/floppy69/dogecoind-status
  */
 
 require_once './php/config.php';
@@ -14,7 +15,7 @@ require_once './php/config.php';
 // Die if we're not in the whitelist
 if (php_sapi_name() != 'cli') {
     if (!in_array($_SERVER['REMOTE_ADDR'], $config['stats_whitelist'])) {
-        die($_SERVER['REMOTE_ADDR']." is not in the whitelist");
+        die("you're not not in the whitelist");
     }
 }
 
@@ -38,15 +39,15 @@ if (isset($_GET['view'])) {
 
 // Include EasyBitcoin library and set up connection
 require_once './php/easybitcoin.php';
-$bitcoin = new Bitcoin($config['rpc_user'], $config['rpc_pass'], $config['rpc_host'], $config['rpc_port']);
+$dogecoin = new Dogecoin($config['rpc_user'], $config['rpc_pass'], $config['rpc_host'], $config['rpc_port']);
 
 // Setup SSL if configured
 if ($config['rpc_ssl'] === true) {
-    $bitcoin->setSSL($config['rpc_ssl_ca']);
+    $dogecoin->setSSL($config['rpc_ssl_ca']);
 }
 
 // Get info and handle errors
-$new_raw_data = $bitcoin->getnetworkinfo();
+$new_raw_data = $dogecoin->getnetworkinfo();
 if (!$new_raw_data) {
     die("RPC Error");
 }

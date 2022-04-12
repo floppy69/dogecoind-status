@@ -1,12 +1,13 @@
 <?php
 /**
- * Bitcoin Status Page - Stats
+ * Dogecoin Status Page - Stats
  *
  * @category File
- * @package  BitcoinStatus
+ * @package  DogecoinStatus
  * @author   Craig Watson <craig@cwatson.org>
+ * @Forked   By   Floppy69 <a.maaded@gmail.com>
  * @license  https://www.apache.org/licenses/LICENSE-2.0 Apache License, Version 2.0
- * @link     https://github.com/craigwatson/bitcoind-status
+ * @link     https://github.com/floppy69/dogecoind-status
  */
 
 
@@ -30,7 +31,7 @@ case 'connection':
 case 'peer':
     $data_file  = $config['peercount_file'];
     $min_points = $config['peercount_min_data_points'];
-    $headers    = array('Date','Other','Classic','BitCoinJ','Core','Unlimited');
+    $headers    = array('Date','Other','Shibetoshi','Classic','BitCoinJ','Core','Unlimited');
     $prefixes   = array('new Date(','','','','','');
     $postfixes  = array('*1000)','','','','','');
 
