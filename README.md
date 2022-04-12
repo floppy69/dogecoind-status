@@ -178,6 +178,13 @@ The `config.php` file also contains lots of options to control how the applicati
 | `debug`       | Boolean | `false`             | If enabled, the contents of $data is echoed in HTML comments |
 | `admin_email` | String  | `admin@example.com` | Email address to display on error                            |
 
+### System
+
+
+| Value         | Type    | Default             | Explanation                                                  |
+|---------------|---------|---------------------|--------------------------------------------------------------|
+| `particles`   | Boolean | `true`    | Display Dogecoin's Particles                                           |
+
 #### Important Note
 
   *  **Do not** disable cache unless you either have an alternative mechanism or your node is protected from potential DDoS attacks.
